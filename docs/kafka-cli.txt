@@ -1,0 +1,126 @@
+1. topic 생성,조회,삭제,메시지 송수신
+# topic 조회
+kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+# topic 생성
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic test_topic --partitions 3 --replication-factor 2
+
+# topic 상세 정보
+kafka-topics.sh --bootstrap-server localhost:9092 --topic test_topic --describe
+
+# topic 삭제
+kafka-topics.sh --bootstrap-server localhost:9092 --topic test_topic --delete
+
+# kafka-console-producer로 메시지 전송
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test_topic
+
+# kafka-console-consumer로 메시지 수신
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test_topic
+
+# key message를 kafka-console-producer로 전송
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test_topic \
+--property key.separator=: --property parse.key=true
+
+# key message를 kafka-console-consumer로 수신
+kafka-console-consumer --bootstrap-server localhost:9092 --topic test_topic \
+--property print.key=true --property print.value=true --from-beginning
+
+# Key 타입이 Integer인 경우 --key-deserializer 인자 설정
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --group group-01 --topic test_topic \
+--property print.key=true --property print.value=true \
+--key-deserializer "org.apache.kafka.common.serialization.IntegerDeserializer"
+
+# Group id로 group_01을 가진 consumer 3개 생성(아래 명령어 3번 수행) 
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --group group_01 --topic test_topic \
+--property print.key=true --property print.value=true \
+--property print.partition=true
+
+# Consumer를 partition 별로 수신 --group 인자를 주면 안됨
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test_topic \
+--property print.key=true --property print.value=true --partition 0
+
+2. kafka 환경 설정
+# broker 0번의 config 확인  
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --all --describe
+
+# topic config 확인
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test_topic --all --describe
+
+# topic config 변경
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test_topic --alter \
+--add-config max.message.bytes=2088000
+
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name pizza-topic-stest --alter --add-config segment.bytes=10240
+
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name pizza-topic-stest --alter --add-config segment.ms=60000
+
+# topic config를 Default값으로 변경
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test_topic --alter \
+--delete-config max.message.bytes
+
+3. kafka-dump-log
+# kafka-dump-log로 log 파일 보기
+kafka-dump-log.sh --deep-iteration --files /kafka/kafka-logs/test_topic-0/00000000000000000000.log --print-data-log
+kafka-dump-log.sh --deep-iteration --files /kafka/kafka-logs/test_topic-1/00000000000000000000.log --print-data-log
+
+# kafka-dump-log로 index 파일 보기
+kafka-dump-log.sh --deep-iteration --files /kafka/kafka-logs/test_topic-0/00000000000000000000.index --print-data-log
+
+# kafka-dump-log로 timeindex 파일 내부 보기
+kafka-dump-log.sh --deep-iteration --files /kafka/kafka-logs/test_topic-0/00000000000000000000.timeindex --print-data-log
+
+4. __consumer_offsets 토픽 읽기
+# consumer.config 파일 생성 
+echo "exclude.internal.topics=false" > consumer_temp.config
+
+# __consumer_offsets 토픽 읽기
+ kafka-console-consumer.sh --consumer.config /home/kafka/consumer_temp.config \
+ --bootstrap-server localhost:9092 --topic __consumer_offsets \
+ --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter"
+
+5.1 log.cleanup.policy=delete 기반 Segment 삭제 관리
+# broker 레벨 log cleanup policy와 retention 파라미터 보기
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --all --describe | grep policy
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --all --describe | grep retention
+
+# test-topic의 retention 파라미터 보기
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --all --describe | grep retention
+
+# test-topic의 segment.bytes를 10k로, retention.ms를 3분으로 변경하기 
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --alter --add-config segment.bytes=10240
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --alter --add-config retention.ms=180000
+
+5.2. cleanup.policy=compact 기반 Log Compaction 수행
+# broker 레벨 log cleanup policy와 cleaner 파라미터 보기
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --all --describe | grep policy
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --all --describe | grep cleaner
+
+# test-topic의 log cleanup policy와 cleaner 파라미터 보기
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --all --describe | grep policy
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --all --describe | grep cleaner
+
+# test-topic의 segment.bytes를 10k로 변경하기 
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --alter --add-config segment.bytes=10240
+
+# test-topic의 cleanup.policy를 compact로 변경하고, min.cleanable.dirty.ratio를 0.1로 변경 
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --alter --add-config cleanup.policy=compact
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name test-topic --alter --add-config min.cleanable.dirty.ratio=0.1
+
+6. Windows Kafka
+# zookeeper 실행 명령어
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+
+# windows에서 2181포트가 실행되었는지 확인
+netstat -na | findstr "2181"
+
+# kafka 실행 명령어
+bin\windows\kafka-server-start.bat config\server.properties
+
+# windows에서 9092포트가 실행되었는지 확인
+netstat -na | findstr "9092"
+
+# kafka topic 생성
+bin\windows\kafka-topics.bat --create --bootstrap-server localhost:9092 --topic dev-topic
+
+# kafka topic 생성 확인
+bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092

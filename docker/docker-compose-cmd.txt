@@ -1,0 +1,19 @@
+
+# start services 
+docker-compose -f docker-compose.kafka.yml up 
+
+# Start a single service
+docker-compose up <service_name>
+docker-compose -f docker-compose.kafka.yml up kafka1-1
+
+# Stop a single service:
+docker-compose stop <service_name>
+docker-compose -f docker-compose.kafka.yml stop kafka1-1
+
+# Restart a single service:
+docker-compose restart <service_name>
+docker-compose -f docker-compose.kafka.yml restart kafka1-1
+
+# Build a single service:
+docker-compose build <service_name>
+docker-compose -f docker-compose.kafka.yml build kafka1-1

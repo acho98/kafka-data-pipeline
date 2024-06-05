@@ -1,0 +1,16 @@
+{
+  "namespace": "tx.avro",
+  "type": "record",
+  "name": "value",
+  "fields": [
+    {
+      "name": "userid", "type": "string"
+    },
+    {
+      "name": "username", "type": "string"
+    },
+    {
+      "name": "card_no","type": "string", "default": "111-111-1111"
+    }
+  ]
+}

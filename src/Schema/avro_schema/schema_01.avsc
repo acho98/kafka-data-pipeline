@@ -1,0 +1,13 @@
+{
+  "namespace": "tx.avro",
+  "type": "record",
+  "name": "value",
+  "fields": [
+    {
+      "name": "userid", "type": "string"
+    },
+    {
+      "name": "username", "type": "string"
+    }
+  ]
+}

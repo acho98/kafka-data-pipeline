@@ -1,0 +1,4 @@
+rootProject.name = 'KafkaEdu'
+include 'producers'
+include 'consumers'
+
