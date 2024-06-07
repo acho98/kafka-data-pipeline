@@ -80,20 +80,22 @@ $ curl http://rhsc2:8083/connector-plugins | jq
   },
 ```
 ## Configuration
-Kafka Connect Datagen Specific Parameters
+> **Kafka Connect Datagen Specific Parameters**
 
-Parameter	Description	Default
-kafka.topic	Topic to write to	
-max.interval	Max interval between messages (ms)	500
-iterations	Number of messages to send from each task, or less than 1 for unlimited	-1
-schema.string	The literal JSON-encoded Avro schema to use. Cannot be set with schema.filename or quickstart	
-schema.filename	Filename of schema to use. Cannot be set with schema.string or quickstart	
-schema.keyfield	Name of field to use as the message key	
-- 해당 파라미터를 통해 토픽에 적재되는 메시지의 key를 제어할 수 있다.	
-- 설정될 경우, 커넥터는 schema에서 해당 이름을 가진 필드를 찾아 해당 값을 메시지 키로 사용한다.	
-- Available type: string, int, record, ... etc (null 가능)	
-- 해당 파라미터가 제공되지 않으면 키는 null이 된다.	
-quickstart	Name of quickstart to use. Cannot be set with schema.string or schema.filename	
+| Parameter          | Description                                                                                                          | Default |
+|--------------------|----------------------------------------------------------------------------------------------------------------------|---------|
+| kafka.topic        | Topic to write to                                                                                                    |         |
+| max.interval       | Max interval between messages (ms)                                                                                   | 500     |
+| iterations         | Number of messages to send from each task, or less than 1 for unlimited                                              | -1      |
+| schema.string      | The literal JSON-encoded Avro schema to use. Cannot be set with `schema.filename` or `quickstart`                    |         |
+| schema.filename    | Filename of schema to use. Cannot be set with `schema.string` or `quickstart`                                        |         |
+| schema.keyfield    | Name of field to use as the message key                                                                              |         |
+|                    | - 해당 파라미터를 통해 토픽에 적재되는 메시지의 key를 제어할 수 있다.                                              |         |
+|                    | - 설정될 경우, 커넥터는 schema에서 해당 이름을 가진 필드를 찾아 해당 값을 메시지 키로 사용한다.                     |         |
+|                    | - Available type: `string`, `int`, `record`, ... etc (null 가능)                                                     |         |
+|                    | - 해당 파라미터가 제공되지 않으면 키는 null이 된다.                                                               |         |
+| quickstart         | Name of `quickstart` to use. Cannot be set with `schema.string` or `schema.filename`                                 |         |
+
 
 
 > **Configuration with Sample schema**
