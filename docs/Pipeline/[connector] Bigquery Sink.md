@@ -14,18 +14,18 @@ Kafka Connect Google BigQuery Sink 커넥터는 데이터를 BigQuery 테이블�
 
 ### 1. Google key 받기
 1. 메뉴에서 `IAM 및 관리자 > 서비스 계정`을 선택한다.  
-![console](../images/bq_c/bq1.png)
+![console](../../images/bq_c/bq1.png)
 
 2. 해당 서비스 계정에 프로젝트에 대한 엑세스 권한을 부여한다.  
 이때 모든 BigQuery의 데이터세트의 모든 콘텐츠를 수정할 수 있는 `Bigquery 데이터 편집자` 권한을 부여한다.  
-![console](../images/bq_c/bq2.png)
+![console](../../images/bq_c/bq2.png)
 
 확인  
-![console](../images/bq_c/bq3.png)
+![console](../../images/bq_c/bq3.png)
 
 3. 키를 생성하고 다운로드 받아준다.  
-![console](../images/bq_c/bq4.png)
-![console](../images/bq_c/bq5.png)
+![console](../../images/bq_c/bq4.png)
+![console](../../images/bq_c/bq5.png)
 
 4. 내려받은 키를 서버로 전송한다.  
 ```
@@ -35,23 +35,23 @@ Kafka Connect Google BigQuery Sink 커넥터는 데이터를 BigQuery 테이블�
 ### 2.  Big Query dataset 생성
 
 1. 메뉴에서 Big Query를 선택하여 데이터를 추가할 수 있다.  
-![console](../images/bq_c/bq6.png)
+![console](../../images/bq_c/bq6.png)
 
 2. 본인의 프로젝트를 선택한다.  
-![console](../images/bq_c/bq7.png)
+![console](../../images/bq_c/bq7.png)
 
 3. 데이터셋을 생성한다.  
-![console](../images/bq_c/bq8.png)
-![console](../images/bq_c/bq9.png)
+![console](../../images/bq_c/bq8.png)
+![console](../../images/bq_c/bq9.png)
 
 ### 3. BigQuery API 활성화
 
 메뉴에서 API 및 서비스를 선택하여 빅쿼리 API를 활성화할 수 있다.  
-![console](../images/bq_c/bq10.png)
-![console](../images/bq_c/bq11.png)
+![console](../../images/bq_c/bq10.png)
+![console](../../images/bq_c/bq11.png)
 
 - API 라이브러리에서 BigQuery API를 검색하고 이를 사용 설정한다.  
-![console](../images/bq_c/bq12.png)
+![console](../../images/bq_c/bq12.png)
 
 ---
 
@@ -167,7 +167,7 @@ curl -X POST -H "Content-Type: application/json" --data @sy-bigquery.json http:/
 커넥터 실행 결과 토픽 이름과 동일한 테이블이 자동 생성된다.  
 sql 쿼리를 사용해 테이블에 이관된 모든 데이터를 조회하고, 확인할 수 있다.  
 
-![console](../images/bq_c/bq13.png)
+![console](../../images/bq_c/bq13.png)
 
 ## reference
 https://docs.confluent.io/home/overview.html
