@@ -57,7 +57,7 @@ $ curl rhsc:8083/connectors/debezium-SR/status | jq
     - free text를 허용하는 구성으로, 기본값은 빈 문자열이다. 비어있는 경우, kafka connect는 이를 “connect-X”로 설정한다. 이때 X는 임의의 정수이지만, 일반적으로 1로 설정된다.  
     - client.id에 대하여 요구되는 사항은 없다.  
 
-- worker rebalancing은 브로커와 kafka connect 노드 간의 연결이 불안정함을 의미한다. 이러한 일이 발생하면 커넥터가 작동하지 않는다. 굳이 모니터링할 필요는 없을 것 같다.
+- worker rebalancing은 브로커와 kafka connect 노드 간의 연결이 불안정함을 의미한다. 이러한 일이 발생하면 커넥터가 작동하지 않는다.
   
 ## Ref
 https://docs.confluent.io/platform/current/connect/index.html
