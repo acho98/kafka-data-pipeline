@@ -1,5 +1,5 @@
  
-- Consuming 할 Topic 생성 (10.20.19.69 apache rh1)  
+- Consuming 할 Topic 생성 (apache rh1)  
 ```
 $ ./kafka-topics.sh --bootstrap-server rh1:9092 --topic sy.noconsumer.gid --create
 ```
@@ -32,7 +32,7 @@ import java.util.Properties;
 public class SimpleConsumer {
     private final static Logger logger = LoggerFactory.getLogger(SimpleConsumer.class);
     private final static String TOPIC_NAME = "sy.noconsumer.gid";
-    private final static String BOOTSTRAP_SERVERS = "10.20.19.69:9092";
+    private final static String BOOTSTRAP_SERVERS = "10.10.10.1:9092";
     private final static String GROUP_ID = "";
 
     public static void main(String args[]) {
@@ -79,7 +79,7 @@ consumer group id 값을 null로 두는 옵션은 deprecated 된다고 한다.
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.offset.reset = earliest
-	bootstrap.servers = [10.20.19.69:9092]
+	bootstrap.servers = [10.10.10.1:9092]
 	check.crcs = true
 	client.dns.lookup = use_all_dns_ips
 	client.id = consumer-sy1-1
