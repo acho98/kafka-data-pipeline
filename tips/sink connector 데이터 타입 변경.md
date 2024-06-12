@@ -3,10 +3,10 @@
 - Decimal(10진수) 타입의 데이터가 깨져서 보임
 
 [C3] REGION_ID는 10진수인데, 확인 불가  
-![console](../../images/sink_type/sinktype1.png)
+![console](../images/sink_type/sinktype1.png)
 
 [Compass] REGION_ID는 10진수인데, 소수점 보임  
-![console](../../images/sink_type/sinktype2.png)
+![console](../images/sink_type/sinktype2.png)
 
 ## 2. 해결
 
@@ -64,7 +64,7 @@ curl -X PUT http://zk1:8083/connectors/mongo_sink/config -H "Content-Type: appli
 
 "transforms.Cast.spec": "<타입을 지정할 테이블> : <데이터 타입>"
 
-![console](../../images/sink_type/sinktype3.png)
+![console](../images/sink_type/sinktype3.png)
 
 - Compass 접속하여 다시 확인 (이전 collection은 drop 시켜주었습니다.)  
 
